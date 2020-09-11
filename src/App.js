@@ -1,26 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Accordian from "./components/Accordian";
+import Search from "./components/Search";
+import Dropdown from "./components/Dropdown";
+import Route from "./components/Route";
+import Header from "./components/Header";
 
-function App() {
+const items = [
+  {
+    title: "what is react?",
+    content: "react is a front end js framework",
+  },
+  {
+    title: "why use react?",
+    content: "react is a facorite JS library among engineers",
+  },
+  {
+    title: "how do you use react ? ",
+    content: "you use react by creating components",
+  },
+];
+
+const options = [
+  {
+    label: "The Color Red",
+    value: "red",
+  },
+  {
+    label: "The Color Green",
+    value: "green",
+  },
+  {
+    label: "The Color Blue",
+    value: "blue",
+  },
+];
+
+export default () => {
+  const [selected, setSelected] = useState(options[0]);
+  const [dDown, setdDown] = useState(true);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <Header />
+      <Route path="/">
+        <Accordian items={items} />
+      </Route>
+      <Route path="/list">
+        <Search />
+      </Route>
+      <Route path="/dropdown">
+        <button
+          onClick={() => {
+            setdDown(!dDown);
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          Toggle DropDown
+        </button>
+        {dDown ? (
+          <Dropdown
+            selected={selected}
+            onSelectedChange={setSelected}
+            options={options}
+            label="Select a Color"
+          />
+        ) : null}
+      </Route>
     </div>
   );
-}
-
-export default App;
+};
